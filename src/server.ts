@@ -1,9 +1,7 @@
-import { Server } from "http";
 import app from ".";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-let server: Server;
 
 const PORT = process.env.PORT || 5000;
 const db_password = process.env.DB_PASSWORD;
