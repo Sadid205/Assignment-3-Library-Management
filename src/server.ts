@@ -10,7 +10,7 @@ const db_user = process.env.DB_USER;
 async function main() {
   try {
     await mongoose.connect(
-      `mongodb+srv://${db_user}:${db_password}@library-management.m2znq0w.mongodb.net/?retryWrites=true&w=majority&appName=library-management`
+      `mongodb+srv://${db_user}:${db_password}@library-management.m2znq0w.mongodb.net/library-management?retryWrites=true&w=majority&appName=library-management`
     );
     console.log("Connected to mongodb using mongoose");
     app.listen(PORT, () => {
