@@ -1,4 +1,4 @@
-import { model, ObjectId, Schema } from "mongoose";
+import { model, ObjectId, Schema, SchemaTypeOptions } from "mongoose";
 import { BookStaticMethods, IBook } from "../interfaces/Ibook.interface";
 
 const bookSchema = new Schema<IBook, BookStaticMethods>(
@@ -28,7 +28,7 @@ const bookSchema = new Schema<IBook, BookStaticMethods>(
         "FANTASY",
       ],
       required: [true, "Genre is required"],
-    },
+    } as any,
     isbn: {
       type: String,
       required: [true, "ISBN number is required"],
