@@ -1,20 +1,63 @@
-https://github.com/Apollo-Level2-Web-Dev/B5A3
+# 📚 Library Management API (Built with express.js)
 
-1. Vercel
+## 🚀 Getting Started
 
-- Vercel CLI
-  -Install
+### 🔧 Installation
 
-  (First time steps)
-  npm install -g vercel
-  vercel -v
-  vercel login
+1. **Clone the repository:**
+   ```bash
+   git clone
+   ```
+2. Install dependencies
 
-  (For Every project)
-  vercel --prod
+   ## npm install
 
--Without Install Process
-(For First Time)
-npx vercel login
-(For every project)
-npx vercel --prod
+3. Run the app in developement mode:
+
+## npm run start:dev
+
+📄 All available scripts can be found in the scripts section of the package.json file.
+
+Books Section
+
+=> [GET] /api/books -> Get all books
+=> [POST] /api/books -> Create a new book
+Body:{title: string,author: string,genre: Genre,isbn: string,description: string,copies: number,available: boolean}
+
+⚠️ While creating a book, all fields are required.
+
+=> [GET] /api/books/:id -> Get single book
+=> [PUT] /api/books/:id -Update a books
+Body:{title: string,author: string,genre: Genre,isbn: string,description: string,copies: number,available: boolean}
+
+✅ While updating, all fields are optional.
+
+Borrow Section
+
+=> [GET] /api/borrow -> Get all borrows list
+=> [POST] /api/borros -> Create a new borrow
+Body : {book: ObjectId,quantity: number,dueDate: Date}
+
+⚠️ While creating a book, all fields are required.
+
+🛠 Technologies Used
+
+## Node.js
+
+## Express.js
+
+## TypeScript
+
+## MongoDB / Mongoose
+
+📌 Notes
+Make sure MongoDB is running if you're using a database.
+Make sure you have added .env file in your code.
+PORT="Must be provide a port number"
+DB_PASSWORD="Your mongodb password"
+DB_USER="Your mongodb database username"
+
+📬 Contact
+If you face any issues or want to contribute, feel free to open an issue or a pull request.
+
+© 2025 Library Management by Md.Abdullah al sadid
