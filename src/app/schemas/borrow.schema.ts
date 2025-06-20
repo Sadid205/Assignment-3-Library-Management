@@ -10,5 +10,11 @@ export const borrowZODSchema = z.object({
   quantity: z
     .number({ required_error: "quantity is required." })
     .positive({ message: "quantity must be an integer" }),
-  dueDate: z.date({ required_error: "dueDate is required" }),
+  dueDate: z.preprocess(
+    (arg) => new Date(arg as string),
+    z.date({
+      required_error: "dueDate is required",
+      invalid_type_error: "dueDate must be a valid date",
+    })
+  ),
 });

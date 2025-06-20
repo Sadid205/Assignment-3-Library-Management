@@ -108,4 +108,29 @@ bookRouter.put(
   }
 );
 
+bookRouter.delete(
+  "/books/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const bookdId = req.params.id;
+      checkObjectId(bookdId, res);
+      const deletedBook = await Book.findByIdAndDelete(bookdId);
+      if (deletedBook === null) {
+        return res.status(404).json({
+          success: false,
+          message: "Book not found",
+          data: deletedBook,
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Book deleted successfully",
+        data: deletedBook,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default bookRouter;
