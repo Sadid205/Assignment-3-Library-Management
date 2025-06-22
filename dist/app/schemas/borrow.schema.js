@@ -11,7 +11,7 @@ exports.borrowZODSchema = zod_1.z.object({
         .length(24, { message: "Book must be a valid 24-charecter ObjectId" }),
     quantity: zod_1.z
         .number({ required_error: "quantity is required." })
-        .positive({ message: "quantity must be an greater than 0" }),
+        .positive({ message: "quantity must be greater than 0" }),
     dueDate: zod_1.z.preprocess((arg) => new Date(arg), zod_1.z.date({
         required_error: "dueDate is required",
         invalid_type_error: "dueDate must be a valid date",
