@@ -9,7 +9,7 @@ export const borrowZODSchema = z.object({
     .length(24, { message: "Book must be a valid 24-charecter ObjectId" }),
   quantity: z
     .number({ required_error: "quantity is required." })
-    .positive({ message: "quantity must be an greater than 0" }),
+    .positive({ message: "quantity must be greater than 0" }),
   dueDate: z.preprocess(
     (arg) => new Date(arg as string),
     z.date({
