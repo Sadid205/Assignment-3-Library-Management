@@ -16,7 +16,15 @@ const borrow = async (req, res, next) => {
         }
         const { book: bookId, quantity, dueDate } = parsedBody.data;
         const bookData = await book_models_1.Book.findById(bookId);
-        (0, checkAvailableBooks_1.checkAvailableBooks)(bookData, quantity, res);
+        if (bookData === null) {
+            return res.status(400).json({ success: false, message: "Not found" });
+        }
+        const isAvailable = (0, checkAvailableBooks_1.checkAvailableBooks)(bookData, quantity, res);
+        if (isAvailable === false) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Insufficient amount" });
+        }
         const borrow = await borrow_model_1.Borrow.create({ ...parsedBody.data });
         const borrowedBook = await book_models_1.Book.findByIdAndUpdate(bookId, {
             copies: bookData && bookData.copies - quantity,

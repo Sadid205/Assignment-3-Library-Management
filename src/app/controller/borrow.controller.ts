@@ -20,7 +20,15 @@ export const borrow = async (
     }
     const { book: bookId, quantity, dueDate } = parsedBody.data;
     const bookData: IBook | null = await Book.findById(bookId);
-    checkAvailableBooks(bookData, quantity, res);
+    if (bookData === null) {
+      return res.status(400).json({ success: false, message: "Not found" });
+    }
+    const isAvailable = checkAvailableBooks(bookData, quantity, res);
+    if (isAvailable === false) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Insufficient amount" });
+    }
     const borrow = await Borrow.create({ ...parsedBody.data });
     const borrowedBook = await Book.findByIdAndUpdate(
       bookId,

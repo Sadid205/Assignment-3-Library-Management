@@ -18,3 +18,8 @@ https://github.com/Apollo-Level2-Web-Dev/B5A3
 npx vercel login
 (For every project)
 npx vercel --prod
+
+GitHub Repository Link:https://github.com/Sadid205/Assignment-3-Library-Management
+Live Deployment Link:https://assignment-3-mu-orcin.vercel.app/
+Video Explanation (Public Link):https://www.youtube.com/watch?v=pJTILcfJShg
+Professional README file with features of your application and instructions on setting up the project locally.

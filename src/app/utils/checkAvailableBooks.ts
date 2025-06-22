@@ -5,13 +5,9 @@ export const checkAvailableBooks = (
   bookData: IBook | null,
   quantity: number,
   res: Response
-): Response | undefined => {
-  if (bookData === null) {
-    return res.status(400).json({ success: false, message: "Not found" });
-  }
+): boolean => {
   if (bookData && bookData.copies < quantity) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Insufficient amount" });
+    return false;
   }
+  return true;
 };
