@@ -4,7 +4,7 @@ import borrowRouter from "./app/router/borrow.router";
 import cors from "cors";
 const app: Application = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173/" }));
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use("/api", bookRouter);
 app.use("/api", borrowRouter);
 
