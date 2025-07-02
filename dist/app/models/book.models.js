@@ -18,7 +18,7 @@ const bookSchema = new mongoose_1.Schema({
         maxlength: [255, "Please keep the author under 255 charecters"],
     },
     genre: {
-        type: [String],
+        type: String,
         enum: [
             "FICTION",
             "NON_FICTION",
