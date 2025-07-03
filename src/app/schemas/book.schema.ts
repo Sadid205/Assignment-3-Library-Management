@@ -17,7 +17,7 @@ export const bookZodSchema = z.object({
   description: z.string().optional(),
   copies: z
     .number({ required_error: "Copies number is required" })
-    .positive({ message: "Copies number is required" }),
+    .min(0, { message: "Copies number must be 0 or greater" }),
   available: z.boolean().default(false),
 });
 

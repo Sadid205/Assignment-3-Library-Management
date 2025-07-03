@@ -16,7 +16,7 @@ exports.bookZodSchema = zod_1.z.object({
     description: zod_1.z.string().optional(),
     copies: zod_1.z
         .number({ required_error: "Copies number is required" })
-        .positive({ message: "Copies number is required" }),
+        .min(0, { message: "Copies number must be 0 or greater" }),
     available: zod_1.z.boolean().default(false),
 });
 exports.bookUpdateZodSchema = exports.bookZodSchema.partial();
