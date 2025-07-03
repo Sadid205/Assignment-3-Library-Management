@@ -29,10 +29,12 @@ export const getBooks = async (
     .sort({ createdAt: sort === "asc" ? 1 : -1 })
     .skip(skip)
     .limit(parsedLimit);
+  const total = await Book.countDocuments();
   return res.status(200).json({
     success: true,
     message: "Books retrieve successfully",
     data: books,
+    total,
   });
 };
 
