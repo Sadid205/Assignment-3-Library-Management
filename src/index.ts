@@ -7,7 +7,7 @@ const frontend_url =
   process.env.FRONTEND_URL || "https://assignment-4-one-ashen.vercel.app/";
 const app: Application = express();
 app.use(express.json());
-app.use(cors({ origin: frontend_url }));
+app.use(cors({ origin: [frontend_url] }));
 app.use("/api", bookRouter);
 app.use("/api", borrowRouter);
 
