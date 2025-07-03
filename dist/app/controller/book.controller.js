@@ -5,11 +5,14 @@ const book_schema_1 = require("../schemas/book.schema");
 const book_models_1 = require("../models/book.models");
 const checkObjectId_1 = require("../utils/checkObjectId");
 const getBooks = async (req, res, next) => {
-    const { filter = "", sort = "desc", limit = "10", } = req.query;
+    const { filter = "", sort = "desc", limit = "", page = "", } = req.query;
     const parsedLimit = parseInt(limit);
+    const parsedPage = parseInt(page);
+    const skip = (parsedPage - 1) * parsedLimit;
     console.log({ filter, sort, limit });
     const books = await book_models_1.Book.find(filter ? { genre: filter } : {})
         .sort({ createdAt: sort === "asc" ? 1 : -1 })
+        .skip(skip)
         .limit(parsedLimit);
     return res.status(200).json({
         success: true,

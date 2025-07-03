@@ -12,17 +12,22 @@ export const getBooks = async (
   const {
     filter = "",
     sort = "desc",
-    limit = "10",
+    limit = "",
+    page = "",
   } = req.query as {
     filter?: string;
     sort?: "asc" | "desc";
-    limit?: "string";
+    limit?: string;
+    page?: string;
   };
   const parsedLimit = parseInt(limit);
+  const parsedPage = parseInt(page);
+  const skip = (parsedPage - 1) * parsedLimit;
 
   console.log({ filter, sort, limit });
   const books = await Book.find(filter ? { genre: filter } : {})
     .sort({ createdAt: sort === "asc" ? 1 : -1 })
+    .skip(skip)
     .limit(parsedLimit);
   return res.status(200).json({
     success: true,
