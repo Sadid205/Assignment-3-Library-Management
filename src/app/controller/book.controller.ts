@@ -100,6 +100,9 @@ export const updateBook = async (
       { ...parsedBody.data },
       { new: true }
     );
+    if (updatedBook?.copies === 0) {
+      await Book.checkAvailablity(bookId);
+    }
     return res.status(201).json({
       success: true,
       message: "Book updated successfully",

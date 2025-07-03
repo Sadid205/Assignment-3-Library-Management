@@ -71,6 +71,9 @@ const updateBook = async (req, res, next) => {
             });
         }
         const updatedBook = await book_models_1.Book.findByIdAndUpdate({ _id: bookId }, { ...parsedBody.data }, { new: true });
+        if (updatedBook?.copies === 0) {
+            await book_models_1.Book.checkAvailablity(bookId);
+        }
         return res.status(201).json({
             success: true,
             message: "Book updated successfully",
