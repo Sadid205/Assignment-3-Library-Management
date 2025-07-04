@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const book_router_1 = __importDefault(require("./app/router/book.router"));
 const borrow_router_1 = __importDefault(require("./app/router/borrow.router"));
 const cors_1 = __importDefault(require("cors"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const frontend_url = process.env.FRONTEND_URL;
 const allowedOrigins = ["http://localhost:5173"];
 if (frontend_url) {

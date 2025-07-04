@@ -2,12 +2,16 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import bookRouter from "./app/router/book.router";
 import borrowRouter from "./app/router/borrow.router";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const frontend_url = process.env.FRONTEND_URL;
 const allowedOrigins = ["http://localhost:5173"];
 if (frontend_url) {
   allowedOrigins.push(frontend_url);
 }
+
 const app: Application = express();
 app.use(express.json());
 app.use(cors({ origin: allowedOrigins }));
