@@ -49,7 +49,7 @@ const getBorrows = async (req, res, next) => {
             {
                 $group: {
                     _id: "$book",
-                    totalQuantity: { $sum: 1 },
+                    totalQuantity: { $sum: "$quantity" },
                 },
             },
             {

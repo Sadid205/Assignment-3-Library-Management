@@ -67,7 +67,7 @@ export const getBorrows = async (
       {
         $group: {
           _id: "$book",
-          totalQuantity: { $sum: 1 },
+          totalQuantity: { $sum: "$quantity" },
         },
       },
       {
