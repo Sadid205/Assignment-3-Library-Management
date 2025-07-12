@@ -12,15 +12,18 @@ export const borrowZODSchema = z.object({
     })
     .length(24, { message: "Book must be a valid 24-charecter ObjectId" }),
   quantity: z
-    .number({ required_error: "quantity is required." })
-    .positive({ message: "quantity must be greater than 0" }),
+    .number({
+      required_error: "Quantity is required.",
+      invalid_type_error: "Quantity must be number",
+    })
+    .positive({ message: "Quantity must be greater than 0" }),
   dueDate: z.preprocess(
     (arg) => new Date(arg as string),
     z
       .date({
-        required_error: "dueDate is required",
-        invalid_type_error: "dueDate must be a valid date",
+        required_error: "Due Date is required",
+        invalid_type_error: "Due Date must be a valid date",
       })
-      .min(tomorrow, { message: "dueDate must be after today" })
+      .min(tomorrow, { message: "Due Date must be after today" })
   ),
 });
