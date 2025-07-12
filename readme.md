@@ -1,63 +1,104 @@
-# 📚 Library Management API (Built with express.js)
+# Library Management API
 
-## 🚀 Getting Started
+**Built with:** Express, TypeScript & MongoDB (Mongoose)
 
-### 🔧 Installation
+---
 
-1. **Clone the repository:**
-   ```bash
-   git clone
-   ```
-2. Install dependencies
+## 🎯 Objective
 
-   ## npm install
+Develop a robust **Library Management System API** using **Express**, **TypeScript**, and **MongoDB** with **Mongoose** ODM.
 
-3. Run the app in developement mode:
+This API provides book and borrowing management features, including schema validation, business logic enforcement, aggregation queries, and advanced Mongoose features like static methods and middleware.
 
-## npm run start:dev
+---
 
-📄 All available scripts can be found in the scripts section of the package.json file.
+## 🔧 Core Requirements
 
-Books Section
+- Built with **Express** and **TypeScript**
+- Connects to **MongoDB** via **Mongoose**
+- Enforces business logic (e.g., availability control during borrowing)
+- Uses **Mongoose aggregation pipeline** for summaries
+- Implements **Mongoose static method**
+- Utilizes **Mongoose middleware** (`post` hooks)
+- Supports filtering features on API endpoints
 
-=> [GET] /api/books -> Get all books
-=> [POST] /api/books -> Create a new book
-Body:{title: string,author: string,genre: Genre,isbn: string,description: string,copies: number,available: boolean}
+---
 
-⚠️ While creating a book, all fields are required.
+## 📚 Models & Validation
 
-=> [GET] /api/books/:id -> Get single book
-=> [PUT] /api/books/:id -Update a books
-Body:{title: string,author: string,genre: Genre,isbn: string,description: string,copies: number,available: boolean}
+### Book Model
 
-✅ While updating, all fields are optional.
+| Field         | Type    | Validation & Notes                                                                            |
+| ------------- | ------- | --------------------------------------------------------------------------------------------- |
+| `title`       | string  | **Required** — Book's title                                                                   |
+| `author`      | string  | **Required** — Book's author                                                                  |
+| `genre`       | string  | **Required** — One of: `FICTION`, `NON_FICTION`, `SCIENCE`, `HISTORY`, `BIOGRAPHY`, `FANTASY` |
+| `isbn`        | string  | **Required & Unique** — International Standard Book Number                                    |
+| `description` | string  | Optional — Brief summary or description                                                       |
+| `copies`      | number  | **Required** — Non-negative integer representing total copies available                       |
+| `available`   | boolean | Defaults to `true` — Indicates if book is currently available for borrowing                   |
 
-Borrow Section
+### Borrow Model
 
-=> [GET] /api/borrow -> Get all borrows list
-=> [POST] /api/borros -> Create a new borrow
-Body : {book: ObjectId,quantity: number,dueDate: Date}
+| Field      | Type     | Validation & Notes                                            |
+| ---------- | -------- | ------------------------------------------------------------- |
+| `book`     | ObjectId | **Required** — References the borrowed book's ID (Book model) |
+| `quantity` | number   | **Required** — Positive integer, number of copies borrowed    |
+| `dueDate`  | Date     | **Required** — Date by which book must be returned            |
 
-⚠️ While creating a book, all fields are required.
+---
 
-🛠 Technologies Used
+## 🛠️ Business Logic Highlights
 
-## Node.js
+- When a borrow request is made, the system **checks availability**:
 
-## Express.js
+  - Borrow quantity **cannot exceed** available copies.
+  - If after borrowing, copies reach zero, `available` status is updated accordingly.
 
-## TypeScript
+  - Updating book availability.
+  - Validations and side effects on related models.
 
-## MongoDB / Mongoose
+- Implements **Mongoose static or instance methods** for reusable queries or operations (e.g., total borrowed quantity per book).
 
-📌 Notes
-Make sure MongoDB is running if you're using a database.
-Make sure you have added .env file in your code.
-PORT="Must be provide a port number"
-DB_PASSWORD="Your mongodb password"
-DB_USER="Your mongodb database username"
+- Provides **filtering** on book list or borrow records via query parameters.
 
-📬 Contact
-If you face any issues or want to contribute, feel free to open an issue or a pull request.
+- Uses **aggregation pipeline** for summary endpoints, e.g., total quantity borrowed per book.
 
-© 2025 Library Management by Md.Abdullah al sadid
+---
+
+## 🚀 API Endpoints (Summary)
+
+| Method | Endpoint     | Description                          |
+| ------ | ------------ | ------------------------------------ |
+| GET    | `/books`     | List all books with optional filters |
+| POST   | `/books`     | Add a new book                       |
+| PUT    | `/books/:id` | Edit existing book                   |
+| DELETE | `/books/:id` | Delete a book                        |
+| POST   | `/borrow`    | Borrow a book                        |
+| GET    | `/borrow`    | Get borrow summary (aggregated)      |
+
+---
+
+## 🔧 Tech Stack
+
+- **Backend:** Node.js, Express.js, TypeScript
+- **Database:** MongoDB with Mongoose ODM
+- **Validation:** Mongoose schema validation & custom middleware
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Node.js >= 14.x
+- MongoDB running (local or cloud)
+
+### Installation
+
+```bash
+git clone https://github.com/Sadid205/Assignment-3-Library-Management.git
+cd Assignment-3
+npm install
+npm run dev
+```
