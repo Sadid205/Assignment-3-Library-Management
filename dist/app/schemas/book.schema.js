@@ -8,12 +8,18 @@ exports.bookZodSchema = zod_1.z.object({
         required_error: "Title is required",
         invalid_type_error: "Title must be a string",
     })
+        .regex(/\p{L}/u, {
+        message: "Title must contain at least one letter (not just numbers)",
+    })
         .min(3, { message: "Please entire a title at least 3 charecters" })
         .max(255, "Please keep the title under 255 charecters"),
     author: zod_1.z
         .string({
         required_error: "Author is required",
         invalid_type_error: "Author must be a string",
+    })
+        .regex(/\p{L}/u, {
+        message: "Author must contain at least one letter (not just numbers)",
     })
         .min(3, "Please entire an author at least 3 charecters")
         .max(255, "Please keep the author under 255 charecters"),
