@@ -18,7 +18,11 @@ exports.borrowZODSchema = zod_1.z.object({
         invalid_type_error: "Quantity must be number",
     })
         .positive({ message: "Quantity must be greater than 0" }),
-    dueDate: zod_1.z.preprocess((arg) => new Date(arg), zod_1.z
+    dueDate: zod_1.z.preprocess((arg) => {
+        const date = new Date(arg);
+        date.setHours(0, 0, 0, 0);
+        return date;
+    }, zod_1.z
         .date({
         required_error: "Due Date is required",
         invalid_type_error: "Due Date must be a valid date",

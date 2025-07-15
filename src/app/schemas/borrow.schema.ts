@@ -18,7 +18,11 @@ export const borrowZODSchema = z.object({
     })
     .positive({ message: "Quantity must be greater than 0" }),
   dueDate: z.preprocess(
-    (arg) => new Date(arg as string),
+    (arg) => {
+      const date = new Date(arg as string);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    },
     z
       .date({
         required_error: "Due Date is required",
