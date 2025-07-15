@@ -34,7 +34,13 @@ export const bookZodSchema = z.object({
       message:
         "Invalid ISBN number. It must be 10 or 13 digits (like 9783161484100 or 123456789X)",
     }),
-  description: z.string().optional(),
+  description: z
+    .string()
+    .regex(/\p{L}/u, {
+      message:
+        "Description must contain at least one letter (not just numbers)",
+    })
+    .optional(),
   copies: z
     .number({
       required_error: "Copies number is required",
