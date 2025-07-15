@@ -1,8 +1,5 @@
 import { z } from "zod";
-
-const tomorrow = new Date();
-tomorrow.setHours(0, 0, 0, 0);
-tomorrow.setDate(tomorrow.getDate() + 1);
+import { DateTime } from "luxon";
 
 export const borrowZODSchema = z.object({
   book: z
@@ -17,17 +14,22 @@ export const borrowZODSchema = z.object({
       invalid_type_error: "Quantity must be number",
     })
     .positive({ message: "Quantity must be greater than 0" }),
-  dueDate: z.preprocess(
-    (arg) => {
-      const date = new Date(arg as string);
-      date.setHours(0, 0, 0, 0);
-      return date;
-    },
-    z
-      .date({
-        required_error: "Due Date is required",
-        invalid_type_error: "Due Date must be a valid date",
-      })
-      .min(tomorrow, { message: "Due Date must be after today" })
-  ),
+  dueDate: z
+    .preprocess((arg) => {
+      const jsDate = new Date(arg as string);
+      if (isNaN(jsDate.getTime())) return arg;
+      return jsDate;
+    }, z.date({ invalid_type_error: "Due Date must be a valid date", required_error: "Due Date is required" }))
+    .refine(
+      (date) => {
+        const tomorrowBD = DateTime.now()
+          .setZone("Asia/Dhaka")
+          .startOf("day")
+          .plus({ day: 1 });
+        return DateTime.fromJSDate(date).setZone("Asia/Dhaka") >= tomorrowBD;
+      },
+      {
+        message: "Due Date must be at least tomorrow (Bangladesh Time)",
+      }
+    ),
 });

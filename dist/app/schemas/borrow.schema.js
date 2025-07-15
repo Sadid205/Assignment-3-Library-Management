@@ -2,9 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.borrowZODSchema = void 0;
 const zod_1 = require("zod");
-const tomorrow = new Date();
-tomorrow.setHours(0, 0, 0, 0);
-tomorrow.setDate(tomorrow.getDate() + 1);
+const luxon_1 = require("luxon");
 exports.borrowZODSchema = zod_1.z.object({
     book: zod_1.z
         .string({
@@ -18,14 +16,20 @@ exports.borrowZODSchema = zod_1.z.object({
         invalid_type_error: "Quantity must be number",
     })
         .positive({ message: "Quantity must be greater than 0" }),
-    dueDate: zod_1.z.preprocess((arg) => {
-        const date = new Date(arg);
-        date.setHours(0, 0, 0, 0);
-        return date;
-    }, zod_1.z
-        .date({
-        required_error: "Due Date is required",
-        invalid_type_error: "Due Date must be a valid date",
-    })
-        .min(tomorrow, { message: "Due Date must be after today" })),
+    dueDate: zod_1.z
+        .preprocess((arg) => {
+        const jsDate = new Date(arg);
+        if (isNaN(jsDate.getTime()))
+            return arg;
+        return jsDate;
+    }, zod_1.z.date({ invalid_type_error: "Due Date must be a valid date", required_error: "Due Date is required" }))
+        .refine((date) => {
+        const tomorrowBD = luxon_1.DateTime.now()
+            .setZone("Asia/Dhaka")
+            .startOf("day")
+            .plus({ day: 1 });
+        return luxon_1.DateTime.fromJSDate(date).setZone("Asia/Dhaka") >= tomorrowBD;
+    }, {
+        message: "Due Date must be at least tomorrow (Bangladesh Time)",
+    }),
 });
